@@ -67,6 +67,22 @@ const createPost = async (req, res) => {
   }
 };
 
+//to fetch a single post
+const getSinglePost = async (req, res) => {
+  try {
+    const { autoId } = req.body;
+    const singlePost = await postModel.findOne({ autoId });
+    if (!singlePost) {
+      return res.status(400).json({ message: "Bad Request" });
+    }
+    return res
+      .status(200)
+      .json({ message: "post found successfully", data: singlePost });
+  } catch (err) {
+    res.status(500).json({ message: "database error", error: err.message });
+  }
+};
+
 //to fetch all posts to the home page
 const getAllPosts = async (req, res) => {
   try {
@@ -85,4 +101,10 @@ const getAllPosts = async (req, res) => {
   }
 };
 
-module.exports = { createPost, updatePost, deletePost, getAllPosts };
+module.exports = {
+  createPost,
+  updatePost,
+  deletePost,
+  getSinglePost,
+  getAllPosts,
+};

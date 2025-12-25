@@ -5,9 +5,11 @@ const {
   deletePost,
   updatePost,
   getAllPosts,
+  getSinglePost,
 } = require("../controller/postController.js");
 
 router.get("/getAllPosts", getAllPosts);
+router.get("/getSinglePost", getSinglePost);
 router.post("/createPost", createPost);
 router.put("/updatePost", updatePost);
 router.delete("/deletePost", deletePost);
