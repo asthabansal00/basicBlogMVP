@@ -1,10 +1,22 @@
 import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Blog Frontend is Running!</h1>
-      <p>Test 1: Basic Rendering</p>
+    <div>
+      <nav style={{ padding: '15px', background: '#f4f4f4', marginBottom: '20px' }}>
+        <Link to="/" style={{ marginRight: '15px' }}>Home (Feed)</Link>
+        <Link to="/create">Create Post</Link>
+      </nav>
+
+      <div style={{ padding: '0 20px' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/create" element={<CreatePost />} />
+        </Routes>
+      </div>
     </div>
   );
 }
