@@ -94,7 +94,7 @@ const getAllPosts = async (req, res) => {
     } else {
       res
         .status(200)
-        .json({ message: "posts found successfully", data: posts });
+        .send({ message: "posts found successfully", data: posts });
     }
   } catch (err) {
     res.status(500).json({ message: "database error", errpr: err.message });
