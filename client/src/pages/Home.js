@@ -20,6 +20,26 @@ const Home = () => {
       });
   }, []);
 
+  //delete button
+  const handleDelete = async (e, id) => {
+    e.stopPropagation(); // Prevents the double-click/navigate from triggering
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
+        const res = await axios.delete(
+          `http://localhost:5000/api/posts/deletePost/${id}`
+        );
+        // Refresh the feed by filtering out the deleted post
+        if (res.status === 200) {
+          setPosts((prevPosts) => prevPosts.data.filter((post) => post._id !== id));
+          alert("Post removed successfully!");
+        }
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        alert("Failed to delete post");
+      }
+    }
+  };
+
   if (loading) return <div className="text-center mt-10">Loading Feed...</div>;
 
   return (

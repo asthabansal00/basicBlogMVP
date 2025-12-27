@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
+import PostDetail from './pages/PostDetail';
 import CreatePost from './pages/CreatePost';
 
 function App() {
