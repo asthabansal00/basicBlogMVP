@@ -3,12 +3,13 @@ const postModel = require("../Model/postModel");
 //to update a post
 const updatePost = async (req, res) => {
   try {
-    const { title, autoId } = req.body;
+    const { id } = req.params;
+    const { title } = req.body;
     if (!title) {
       return res.status(400).json({ message: "Inputs not given" });
     }
-    const existingPost = await postModel.findOneAndUpdate(
-      { autoId },
+    const existingPost = await postModel.findByIdAndUpdate(
+      id,
       { title: title },
       { new: true }
     );
@@ -27,11 +28,8 @@ const updatePost = async (req, res) => {
 //to delete a post
 const deletePost = async (req, res) => {
   try {
-    const { autoId } = req.body;
-    if (!autoId) {
-      return res.status(400).json({ message: "Inputs not given" });
-    }
-    const existingPost = await postModel.findOneAndDelete({ autoId });
+    const { id } = req.params;
+    const existingPost = await postModel.findByIdAndDelete(id);
     if (!existingPost) {
       return res.status(404).json({ message: "post not deleted" });
     }
@@ -70,15 +68,21 @@ const createPost = async (req, res) => {
 //to fetch a single post
 const getSinglePost = async (req, res) => {
   try {
-    const { autoId } = req.body;
-    const singlePost = await postModel.findOne({ autoId });
+    const { id } = req.params;
+
+    // Find by the built-in MongoDB _id
+    const singlePost = await postModel.findById(id);
+
     if (!singlePost) {
-      return res.status(400).json({ message: "Bad Request" });
+      return res.status(404).json({ message: "Post not found" });
     }
-    return res
-      .status(200)
-      .json({ message: "post found successfully", data: singlePost });
+
+    return res.status(200).json({
+      message: "post found successfully",
+      data: singlePost,
+    });
   } catch (err) {
+    // If the ID format is wrong, MongoDB throws a CastError
     res.status(500).json({ message: "database error", error: err.message });
   }
 };

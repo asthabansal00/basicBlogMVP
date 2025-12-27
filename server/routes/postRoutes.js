@@ -9,9 +9,9 @@ const {
 } = require("../controller/postController.js");
 
 router.get("/getAllPosts", getAllPosts);
-router.get("/getSinglePost", getSinglePost);
+router.get("/getSinglePost/:id", getSinglePost);
 router.post("/createPost", createPost);
-router.put("/updatePost", updatePost);
-router.delete("/deletePost", deletePost);
+router.put("/updatePost/:id", updatePost);
+router.delete("/deletePost/:id", deletePost);
 
 module.exports = router;
