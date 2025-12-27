@@ -96,9 +96,7 @@ const getAllPosts = async (req, res) => {
     } else if (posts.length === 0) {
       return res.status(404).json({ message: "Posts Not found" });
     } else {
-      res
-        .status(200)
-        .send({ message: "posts found successfully", data: posts });
+      res.status(200).send(posts);
     }
   } catch (err) {
     res.status(500).json({ message: "database error", errpr: err.message });

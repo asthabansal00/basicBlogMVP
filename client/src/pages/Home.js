@@ -30,7 +30,14 @@ const Home = () => {
         );
         // Refresh the feed by filtering out the deleted post
         if (res.status === 200) {
-          setPosts((prevPosts) => prevPosts.data.filter((post) => post._id !== id));
+          setPosts((prevPosts) => {
+            if (!Array.isArray(prevPosts)) {
+              console.error("State 'posts' is not an array!", prevPosts);
+              return []; // Reset to empty array to avoid future crashes
+            }
+            return prevPosts.filter((post) => post._id !== id);
+          });
+          // setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
           alert("Post removed successfully!");
         }
       } catch (error) {
@@ -52,7 +59,7 @@ const Home = () => {
         </div>
       ) : (
         <div className="space-y-10">
-          {posts.data.map((post) => (
+          {posts.map((post) => (
             <div
               key={post._id}
               onDoubleClick={() => navigate(`/post/${post._id}`)} //handling double click for single post view
